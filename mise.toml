@@ -1,0 +1,18 @@
+# Local build setup, see dev-docs/development.md
+# Bootstrap system packages: `mise bootstrap packages apply`
+
+[tools]
+ruby = "3" # build-docs.sh (asciidoctor)
+rust = "latest" # build-shell-completion.sh
+
+[env]
+# Homebrew bash 5 must win over macOS bash 3.2 (script/setup.sh requires bash 5)
+_.path = ["/opt/homebrew/bin"]
+
+[bootstrap.packages]
+"brew:bash" = "latest" # script/setup.sh requires bash 5
+"brew:fish" = "latest" # build-shell-completion.sh
+"brew:xcodegen" = "latest" # generate.sh
+"brew:xcbeautify" = "latest" # build-release.sh
+"brew:nikitabobko/tap/brew-install-path" = "latest" # install-from-sources.sh
+"mas:497799835" = "latest" # Xcode. Afterwards: sudo xcode-select -s /Applications/Xcode.app && sudo xcodebuild -license accept && sudo xcodebuild -runFirstLaunch
