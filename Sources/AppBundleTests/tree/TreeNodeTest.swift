@@ -14,6 +14,18 @@ final class TreeNodeTest: XCTestCase {
         XCTAssertTrue(window.parent == nil)
     }
 
+    func testMostRecentWindowRecursive_skipsEmptyFloatingContainer() {
+        let workspace = Workspace.get(byName: name)
+        TestWindow.new(id: 1, parent: workspace.rootTilingContainer)
+        let window2 = TestWindow.new(id: 2, parent: workspace.rootTilingContainer)
+        window2.markAsMostRecentChild()
+        let floating = TestWindow.new(id: 3, parent: workspace.floatingWindowsContainer)
+        floating.markAsMostRecentChild()
+
+        floating.unbindFromParent()
+        assertEquals(workspace.mostRecentWindowRecursive, window2)
+    }
+
     func testIsEffectivelyEmpty() {
         let workspace = Workspace.get(byName: name)
 

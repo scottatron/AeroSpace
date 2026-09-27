@@ -47,7 +47,16 @@ extension TreeNode {
     }
 
     var mostRecentWindowRecursive: Window? {
-        self as? Window ?? mostRecentChild?.mostRecentWindowRecursive
+        if let window = self as? Window {
+            return window
+        }
+        // Skip empty children (e.g. empty floating windows container after the floating window is closed)
+        for child in mruChildren {
+            if let window = child.mostRecentWindowRecursive {
+                return window
+            }
+        }
+        return nil
     }
 
     var anyLeafWindowRecursive: Window? {
