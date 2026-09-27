@@ -140,6 +140,18 @@ extension AxUiElementMock {
             return false
         }
 
+        // Orion creates a focused 1x1 "Orion Preview" AXDialog window without any buttons when Orion is activated
+        // (e.g. cmd-tab) without windows. The window disappears right away, which makes AeroSpace switch focus
+        // to another app if the window is treated as a real window
+        if id == .orion &&
+            get(Ax.closeButtonAttr) == nil &&
+            fullscreenButton == nil &&
+            get(Ax.zoomButtonAttr) == nil &&
+            get(Ax.minimizeButtonAttr) == nil
+        {
+            return false
+        }
+
         if id?.isFirefox != true {
             return isWindowHeuristicOld(axApp: axApp, id)
         }
