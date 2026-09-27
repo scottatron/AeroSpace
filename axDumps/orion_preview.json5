@@ -1,0 +1,73 @@
+// Hidden 1x1 window that Orion creates and focuses when Orion is activated (e.g. cmd-tab) without windows
+{
+  "AXActivationPoint" : "<AXValue 0xa9d94c840> {value = x:-1.000000 y:957.000000 type = kAXValueCGPointType}",
+  "AXCancelButton" : null,
+  "AXCloseButton" : null,
+  "AXDefaultButton" : null,
+  "AXDocument" : null,
+  "AXFocused" : 1,
+  "AXFrame" : "<AXValue 0xa9c7a2600> {value = x:0.000000 y:955.000000 w:1.000000 h:1.000000 type = kAXValueCGRectType}",
+  "AXFullScreen" : 0,
+  "AXFullScreenButton" : null,
+  "AXGrowArea" : null,
+  "AXMain" : 1,
+  "AXMinimizeButton" : null,
+  "AXMinimized" : 0,
+  "AXModal" : 0,
+  "AXParent" : "<AXUIElement Application 0xa9bc45b00> {pid=87412}",
+  "AXPosition" : "<AXValue 0xa9d94c840> {value = x:0.000000 y:955.000000 type = kAXValueCGPointType}",
+  "AXProxy" : null,
+  "AXRole" : "AXWindow",
+  "AXSections" : [
+
+  ],
+  "AXSize" : "<AXValue 0xa9d94c840> {value = w:1.000000 h:1.000000 type = kAXValueCGSizeType}",
+  "AXSubrole" : "AXDialog",
+  "AXTitle" : "Orion Preview",
+  "AXTitleUIElement" : null,
+  "AXToolbarButton" : null,
+  "AXZoomButton" : null,
+  "Aero.AXApp" : {
+    "AXExtrasMenuBar" : null,
+    "AXFocusedUIElement" : "AXUIElement(AxWindowId=24475, title=\"Orion Preview\", role=\"AXWindow\", subrole=\"AXDialog\")",
+    "AXFocusedWindow" : "AXUIElement(AxWindowId=24475, title=\"Orion Preview\", role=\"AXWindow\", subrole=\"AXDialog\")",
+    "AXFrame" : null,
+    "AXFrontmost" : 1,
+    "AXFunctionRowTopLevelElements" : [
+
+    ],
+    "AXMainWindow" : "AXUIElement(AxWindowId=24475, title=\"Orion Preview\", role=\"AXWindow\", subrole=\"AXDialog\")",
+    "AXMenuBar" : "<AXUIElement 0xa9bc45b00> {pid=87412}",
+    "AXPosition" : null,
+    "AXRole" : "AXApplication",
+    "AXSize" : null,
+    "AXTitle" : "Orion",
+    "AXWindows" : [
+      "AXUIElement(AxWindowId=24475, title=\"Orion Preview\", role=\"AXWindow\", subrole=\"AXDialog\")"
+    ],
+    "Aero.AxFailed" : "isWritable.AXFunctionRowTopLevelElements(failure), get.AXFrame(attributeUnsupported), isWritable.AXFrame(failure), get.AXExtrasMenuBar(noValue), isWritable.AXExtrasMenuBar(failure), get.AXSize(attributeUnsupported), isWritable.AXSize(attributeUnsupported), get.AXPosition(attributeUnsupported), isWritable.AXPosition(attributeUnsupported)",
+    "Aero.AxIgnored" : "AXChildren, AXChildrenInNavigationOrder, AXEnhancedUserInterface, AXPreferredLanguage, AXRoleDescription, AXHidden",
+    "Aero.AxWritable" : "AXFrontmost"
+  },
+  "Aero.App.appBundleId" : "com.kagi.kagimacOS",
+  "Aero.App.nsApp.activationPolicy" : "regular",
+  "Aero.App.nsApp.appBundlePath" : "file:///Applications/Orion.app/",
+  "Aero.App.nsApp.execPath" : "file:///Applications/Orion.app/Contents/MacOS/Orion",
+  "Aero.App.pid" : 87412,
+  "Aero.App.version" : "151",
+  "Aero.App.versionShort" : "1.1.2",
+  "Aero.AxFailed" : "isWritable.AXFrame(failure), get.AXGrowArea(failure), get.AXMinimizeButton(noValue), get.AXDocument(noValue), get.AXCloseButton(noValue), isWritable.AXActivationPoint(failure), get.AXFullScreenButton(noValue), get.AXProxy(noValue), get.AXDefaultButton(noValue), get.AXTitleUIElement(noValue), get.AXCancelButton(noValue), get.AXZoomButton(noValue), get.AXToolbarButton(noValue)",
+  "Aero.AxIgnored" : "AXChildrenInNavigationOrder, AXChildren, AXRoleDescription",
+  "Aero.AxUiElementWindowType" : "dialog",
+  "Aero.AxUiElementWindowType_isDialogHeuristic" : true,
+  "Aero.AxWritable" : "AXPosition, AXSections, AXMain, AXSize",
+  "Aero.axWindowId" : 24475,
+  "Aero.macOS.version" : "Version 26.6.2 (Build 25G83)",
+  "Aero.on-window-detected" : [
+
+  ],
+  "Aero.treeNodeParent" : "Optional(AppBundle.FloatingWindowsContainer)",
+  "Aero.windowLevel" : "normalWindow",
+  "Aero.workspace" : "1"
+}
+
