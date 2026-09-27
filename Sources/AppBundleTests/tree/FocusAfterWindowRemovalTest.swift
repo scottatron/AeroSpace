@@ -62,4 +62,22 @@ final class FocusAfterWindowRemovalTest: XCTestCase {
 
         assertEquals(previousFocusedWindowOrNil, previous)
     }
+
+    func testQuickAccessCloseReturnsToPreviousWindowDespiteOtherFloatingWindow() async {
+        let workspace = Workspace.get(byName: "a")
+        let onePasswordMain = TestWindow.new(id: 1, parent: workspace.floatingWindowsContainer)
+        let safari = TestWindow.new(id: 2, parent: workspace.rootTilingContainer)
+        let quickAccess = TestWindow.new(id: 3, parent: workspace.floatingWindowsContainer)
+
+        _ = onePasswordMain.focusWindow()
+        await checkOnFocusChangedCallbacks_nonCancellable()
+        _ = safari.focusWindow()
+        await checkOnFocusChangedCallbacks_nonCancellable()
+        _ = quickAccess.focusWindow()
+        await checkOnFocusChangedCallbacks_nonCancellable()
+        quickAccess.unbindFromParent()
+
+        let resolved = resolveFocusAfterWindowRemoval(wasFocused: true, previousWindow: previousFocusedWindowOrNil, workspace: workspace)
+        assertEquals(resolved.windowOrNil, safari)
+    }
 }
