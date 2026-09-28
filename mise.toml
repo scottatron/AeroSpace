@@ -16,3 +16,68 @@ _.path = ["/opt/homebrew/bin"]
 "brew:xcbeautify" = "latest" # build-release.sh
 "brew:nikitabobko/tap/brew-install-path" = "latest" # install-from-sources.sh
 "mas:497799835" = "latest" # Xcode. Afterwards: sudo xcode-select -s /Applications/Xcode.app && sudo xcodebuild -license accept && sudo xcodebuild -runFirstLaunch
+
+# Full setup after `mise bootstrap packages apply`: `mise run setup:xcode && mise run setup`
+[tasks."setup"]
+description = "One-time build setup: codesign cert + docs gems"
+depends = ["setup:codesign-cert", "setup:gems"]
+
+[tasks."setup:xcode"]
+description = "Select Xcode, accept its license, run first launch (sudo)"
+run = [
+    "sudo xcode-select -s /Applications/Xcode.app",
+    "sudo xcodebuild -license accept",
+    "sudo xcodebuild -runFirstLaunch",
+]
+
+[tasks."setup:codesign-cert"]
+description = "Create the self-signed 'aerospace-codesign-certificate' used by build-release.sh"
+env = { CERT_NAME = "aerospace-codesign-certificate" }
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+keychain="${KEYCHAIN:-$HOME/Library/Keychains/login.keychain-db}"
+if security find-certificate -c "$CERT_NAME" "$keychain" &> /dev/null; then
+    echo "'$CERT_NAME' already exists in $keychain"
+    exit 0
+fi
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+/usr/bin/openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+    -subj "/CN=$CERT_NAME" \
+    -addext "basicConstraints=critical,CA:false" \
+    -addext "keyUsage=critical,digitalSignature" \
+    -addext "extendedKeyUsage=critical,codeSigning" \
+    -keyout "$tmp/key.pem" -out "$tmp/cert.pem"
+# macOS `security` only reads the legacy PKCS#12 algorithms
+/usr/bin/openssl pkcs12 -export -inkey "$tmp/key.pem" -in "$tmp/cert.pem" -name "$CERT_NAME" \
+    -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -macalg sha1 \
+    -passout pass:aerospace -out "$tmp/cert.p12"
+# -T lets codesign use the key without a keychain prompt
+security import "$tmp/cert.p12" -k "$keychain" -P aerospace -T /usr/bin/codesign
+security find-identity -p codesigning "$keychain" | grep "$CERT_NAME"
+'''
+
+[tasks."setup:gems"]
+description = "Install build-docs.sh gems with mise's Ruby (script/setup.sh would strip it from PATH)"
+env = { NUKE_PATH = "1" }
+run = "./script/install-dep.sh --bundler"
+
+[tasks."install"]
+description = "Build and install the aerospace-dev cask (pass --dont-rebuild to skip the build)"
+run = "./install-from-sources.sh"
+depends_post = ["install:check"]
+
+[tasks."install:check"]
+description = "Make sure the installed cask has bin/aerospace and the CLI talks to the server"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+cask_dir="$(echo /opt/homebrew/Caskroom/aerospace-dev/latest/AeroSpace-v*)"
+if ! test -x "$cask_dir/bin/aerospace"; then
+    echo "bin/aerospace missing from $cask_dir, copying it from .release"
+    mkdir -p "$cask_dir/bin"
+    cp .release/AeroSpace-v*/bin/aerospace "$cask_dir/bin/"
+fi
+aerospace --version
+'''
